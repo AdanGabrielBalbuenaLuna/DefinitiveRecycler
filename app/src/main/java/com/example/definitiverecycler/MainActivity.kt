@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.definitiverecycler.adapter.SuperHeroAdapter
 import com.example.definitiverecycler.databinding.ActivityMainBinding
 
@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initRecyclerView(){
-        val manager = LinearLayoutManager(this)
+        val manager = GridLayoutManager(this, 2)
         val decoration = DividerItemDecoration(this, manager.orientation)
-        binding.recyclerSuperHero.layoutManager = LinearLayoutManager(this)
+        binding.recyclerSuperHero.layoutManager = manager
         binding.recyclerSuperHero.adapter = SuperHeroAdapter(
             SuperHeroProvider.superHeroList,
             { superHero -> onItemSelected(superHero) }) // { -> onItemSelected(it) }

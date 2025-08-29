@@ -1,6 +1,7 @@
 package com.example.definitiverecycler
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     fun initRecyclerView(){
         binding.recyclerSuperHero.layoutManager = LinearLayoutManager(this)
-        binding.recyclerSuperHero.adapter = SuperHeroAdapter(SuperHeroProvider.superHeroList)
+        binding.recyclerSuperHero.adapter = SuperHeroAdapter(
+            SuperHeroProvider.superHeroList,
+            { superHero -> onItemSelected(superHero) }) // { -> onItemSelected(it) }
+    }
+
+    fun onItemSelected(superHero: SuperHero) {
+        Toast.makeText(this, superHero.superhero, Toast.LENGTH_SHORT).show()
     }
 }

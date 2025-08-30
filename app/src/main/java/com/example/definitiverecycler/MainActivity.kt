@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
     fun initRecyclerView(){
         adapter = SuperHeroAdapter(
             superHereMutableList,
-            { superHero -> onItemSelected(superHero) } // { -> onItemSelected(it) }
+            { superHero -> onItemSelected(superHero) }, // { -> onItemSelected(it) }
+            { position -> onDeletedItem(position) }
         )
         binding.recyclerSuperHero.adapter = adapter
 
@@ -35,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, manager.orientation)
         binding.recyclerSuperHero.layoutManager = manager
         binding.recyclerSuperHero.addItemDecoration(decoration)
+    }
+
+    fun onDeletedItem(position: Int) {
+        superHereMutableList.removeAt(position) // Eliminamos el item
+        adapter.notifyItemRemoved(position) // Actualizamos el adapter
     }
 
     fun onItemSelected(superHero: SuperHero) {

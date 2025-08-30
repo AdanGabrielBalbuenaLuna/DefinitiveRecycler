@@ -8,7 +8,8 @@ import com.example.definitiverecycler.SuperHero
 
 class SuperHeroAdapter(
     private val superheroList: List<SuperHero>,
-    private val onClickListener: (SuperHero) -> Unit // Agregamos el parámetro onClickListener, y le decimos que recibe un SuperHero
+    private val onClickListener: (SuperHero) -> Unit, // Agregamos el parámetro onClickListener, y le decimos que recibe un SuperHero
+    private val onClickListenerDelete: (Int) -> Unit // Retorna la posicion del item pulsado
 ) : RecyclerView.Adapter<SuperHeroViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,7 +24,7 @@ class SuperHeroAdapter(
         position: Int
     ) {
         val item = superheroList[position]
-        holder.render(item, onClickListener) // Pasamos el parámetro onClickListener al método render de SuperHeroViewHolder
+        holder.render(item, onClickListener, onClickListenerDelete) // Pasamos el parámetro onClickListener al método render de SuperHeroViewHolder
     }
 
     override fun getItemCount(): Int {

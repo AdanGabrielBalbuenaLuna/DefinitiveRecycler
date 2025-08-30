@@ -21,9 +21,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initRecyclerView()
+        binding.btnAddSuperHero.setOnClickListener { createSuperHero() }
 
     }
 
+    private fun createSuperHero() {
+        val superHero = SuperHero(
+            "¿¿¿","???","Who knows", "https://i.ytimg.com/vi/iHkBpGSOy9o/maxresdefault.jpg"
+        )
+        superHereMutableList.add(index = 7, superHero) // Agregamos el item en la posicion 3
+        adapter.notifyItemInserted(7) // Actualizamos el adapter con el nuevo item -> añade al final
+    }
     fun initRecyclerView(){
         adapter = SuperHeroAdapter(
             superHereMutableList,

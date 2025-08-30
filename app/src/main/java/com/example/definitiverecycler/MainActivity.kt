@@ -12,6 +12,8 @@ import com.example.definitiverecycler.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var superHereMutableList: MutableList<SuperHero> = SuperHeroProvider.superHeroList.toMutableList()
+    private lateinit var adapter: SuperHeroAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +25,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initRecyclerView(){
+        adapter = SuperHeroAdapter(
+            superHereMutableList,
+            { superHero -> onItemSelected(superHero) } // { -> onItemSelected(it) }
+        )
+        binding.recyclerSuperHero.adapter = adapter
+
         val manager = LinearLayoutManager(this)
         val decoration = DividerItemDecoration(this, manager.orientation)
         binding.recyclerSuperHero.layoutManager = manager
-        binding.recyclerSuperHero.adapter = SuperHeroAdapter(
-            SuperHeroProvider.superHeroList,
-            { superHero -> onItemSelected(superHero) }) // { -> onItemSelected(it) }
         binding.recyclerSuperHero.addItemDecoration(decoration)
     }
 

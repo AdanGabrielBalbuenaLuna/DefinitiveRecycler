@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     private var superHereMutableList: MutableList<SuperHero> = SuperHeroProvider.superHeroList.toMutableList()
     private lateinit var adapter: SuperHeroAdapter
 
+    private val linearLayoutManager = LinearLayoutManager(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         )
         superHereMutableList.add(index = 7, superHero) // Agregamos el item en la posicion 3
         adapter.notifyItemInserted(7) // Actualizamos el adapter con el nuevo item -> añade al final
+        linearLayoutManager.scrollToPositionWithOffset(7, 10) // Scroll a la posicion 7 con un margen de 10
     }
     fun initRecyclerView(){
         adapter = SuperHeroAdapter(
@@ -40,9 +43,8 @@ class MainActivity : AppCompatActivity() {
         )
         binding.recyclerSuperHero.adapter = adapter
 
-        val manager = LinearLayoutManager(this)
-        val decoration = DividerItemDecoration(this, manager.orientation)
-        binding.recyclerSuperHero.layoutManager = manager
+        val decoration = DividerItemDecoration(this, linearLayoutManager.orientation)
+        binding.recyclerSuperHero.layoutManager = linearLayoutManager
         binding.recyclerSuperHero.addItemDecoration(decoration)
     }
 

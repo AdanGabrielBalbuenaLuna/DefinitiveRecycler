@@ -1,9 +1,11 @@
 package com.example.definitiverecycler
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.definitiverecycler.adapter.SuperHeroAdapter
@@ -24,8 +26,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initRecyclerView()
         binding.btnAddSuperHero.setOnClickListener { createSuperHero() }
+        configFilter()
 
     }
+
+    private fun configFilter() {
+        binding.etFilter.addTextChangedListener { textoAFiltrar ->
+            val superHeroFiltered = superHereMutableList.filter { apodoTemporal ->
+                apodoTemporal.superhero.lowercase().contains(textoAFiltrar.toString().lowercase())
+            }
+
+            //Log.i("Gabo", it.toString())  // Muestra como funciona addTextChangedListener
+            adapter.updateSuperHeroes(superHeroFiltered)
+        }
+    }
+
 
     private fun createSuperHero() {
         val superHero = SuperHero(

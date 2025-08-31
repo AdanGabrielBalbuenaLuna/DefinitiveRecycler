@@ -7,7 +7,7 @@ import com.example.definitiverecycler.R
 import com.example.definitiverecycler.SuperHero
 
 class SuperHeroAdapter(
-    private val superheroList: List<SuperHero>,
+    private var superheroList: List<SuperHero>,
     private val onClickListener: (SuperHero) -> Unit, // Agregamos el parámetro onClickListener, y le decimos que recibe un SuperHero
     private val onClickListenerDelete: (Int) -> Unit // Retorna la posicion del item pulsado
 ) : RecyclerView.Adapter<SuperHeroViewHolder>() {
@@ -29,5 +29,10 @@ class SuperHeroAdapter(
 
     override fun getItemCount(): Int {
         return superheroList.size
+    }
+
+    fun updateSuperHeroes(superheroList: List<SuperHero>) {
+        this.superheroList = superheroList // Indica que el cambio se hace sobre la lista de la clase como atributo
+        notifyDataSetChanged() // Es posible mejorarlas con Diffutil y ListAdapter
     }
 }

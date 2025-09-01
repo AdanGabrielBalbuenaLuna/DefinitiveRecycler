@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.definitiverecycler.adapter.SuperHeroAdapter
 import com.example.definitiverecycler.databinding.ActivityMainBinding
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var superHereMutableList: MutableList<SuperHero> = SuperHeroProvider.superHeroList.toMutableList()
+    private var superHereMutableList: List<SuperHero> = SuperHeroProvider.superHeroList
     private lateinit var adapter: SuperHeroAdapter
 
     private val linearLayoutManager = LinearLayoutManager(this)
@@ -54,17 +55,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             //Log.i("Gabo", it.toString())  // Muestra como funciona addTextChangedListener
-            adapter.updateSuperHeroes(superHeroFiltered)
+            adapter.updateList(superHeroFiltered)
         }
     }
 
     private fun createSuperHero() {
+        val randomId = Random.nextInt(1000)
         val superHero = SuperHero(
-            "¿¿¿","???","Who knows", "https://i.ytimg.com/vi/iHkBpGSOy9o/maxresdefault.jpg"
+            "$randomId","???","Who knows $randomId", "https://i.ytimg.com/vi/iHkBpGSOy9o/maxresdefault.jpg"
         )
-        superHereMutableList.add(index = 7, superHero) // Agregamos el item en la posicion 3
-        adapter.notifyItemInserted(7) // Actualizamos el adapter con el nuevo item -> añade al final
-        linearLayoutManager.scrollToPositionWithOffset(7, 10) // Scroll a la posicion 7 con un margen de 10
+        superHereMutableList = superHereMutableList.plus(superHero)
+        adapter.updateList(superHereMutableList)
+        linearLayoutManager.scrollToPositionWithOffset(superHereMutableList.size-1, 10) // Scroll a la posicion "ultima" con un margen de 10
     }
 
     fun initRecyclerView(){
@@ -80,9 +82,9 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerSuperHero.addItemDecoration(decoration)
     }
 
-    fun onDeletedItem(position: Int) {
-        superHereMutableList.removeAt(position) // Eliminamos el item
-        adapter.notifyItemRemoved(position) // Actualizamos el adapter
+    fun onDeletedItem(superHero: SuperHero) {
+        superHereMutableList = superHereMutableList.minus(superHero) // Eliminamos el item
+        adapter.updateList(superHereMutableList)
     }
 
     fun onItemSelected(superHero: SuperHero) {

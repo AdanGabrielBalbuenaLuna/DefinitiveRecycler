@@ -13,13 +13,13 @@ class SuperHeroViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun render(
         superHeroModel: SuperHero,
         onClickListener: (SuperHero) -> Unit,
-        onClickListenerDelete: (Int) -> Unit
+        onClickListenerDelete: (SuperHero) -> Unit
     ) {
         binding.tvSuperHeroName.text = superHeroModel.superhero
         binding.tvRealName.text = superHeroModel.realName
         binding.tvPublisher.text = superHeroModel.publisher
         Glide.with(binding.ivSuperHero.context).load(superHeroModel.photo).into(binding.ivSuperHero)
         itemView.setOnClickListener { onClickListener(superHeroModel) }
-        binding.btnDelete.setOnClickListener { onClickListenerDelete(adapterPosition) }
+        binding.btnDelete.setOnClickListener { onClickListenerDelete(superHeroModel) }
     }
 }

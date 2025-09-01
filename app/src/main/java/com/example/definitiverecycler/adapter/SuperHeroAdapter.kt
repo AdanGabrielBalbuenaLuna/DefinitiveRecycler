@@ -2,14 +2,16 @@ package com.example.definitiverecycler.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.definitiverecycler.R
 import com.example.definitiverecycler.SuperHero
+import com.example.definitiverecycler.SuperHeroDiffUtil
 
 class SuperHeroAdapter(
     private var superheroList: List<SuperHero>,
     private val onClickListener: (SuperHero) -> Unit, // Agregamos el parámetro onClickListener, y le decimos que recibe un SuperHero
-    private val onClickListenerDelete: (Int) -> Unit // Retorna la posicion del item pulsado
+    private val onClickListenerDelete: (SuperHero) -> Unit // Retorna el item
 ) : RecyclerView.Adapter<SuperHeroViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,8 +33,11 @@ class SuperHeroAdapter(
         return superheroList.size
     }
 
-    fun updateSuperHeroes(superheroList: List<SuperHero>) {
-        this.superheroList = superheroList // Indica que el cambio se hace sobre la lista de la clase como atributo
-        notifyDataSetChanged() // Es posible mejorarlas con Diffutil y ListAdapter
+    fun updateList(newList:List<SuperHero>) {
+        val superHeroDiff = SuperHeroDiffUtil(superheroList, newList)
+        val result = DiffUtil.calculateDiff(superHeroDiff)
+        superheroList = newList
+        result.dispatchUpdatesTo(this)
     }
+
 }
